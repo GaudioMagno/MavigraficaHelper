@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ExtensionManifest 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    ExtensionBundleId="com.extension.mavigrafica" 
+    ExtensionBundleName="Mavigrafica Helper"
+    ExtensionBundleVersion="1.0"
+    Version="5.0"> <!-- MAJOR-VERSION-UPDATE-MARKER -->
+    <ExtensionList>
+        <Extension Id="com.extension.mavigrafica.panel" Version="1.0"/>
+    </ExtensionList>
+    <ExecutionEnvironment>
+        <HostList>
+            <Host Name="ILST" Version="[15.0,99.9]"/>
+        </HostList>
+        <LocaleList>
+            <Locale Code="All"/>
+        </LocaleList>
+        <RequiredRuntimeList>
+            <RequiredRuntime Name="CSXS" Version="8.0"/> <!-- MAJOR-VERSION-UPDATE-MARKER -->
+        </RequiredRuntimeList>
+    </ExecutionEnvironment>
+    <DispatchInfoList>
+        <Extension Id="com.extension.mavigrafica.panel">
+            <DispatchInfo>
+                <Resources>
+                    <MainPath>./index.html</MainPath>
+                    <ScriptPath>./jsx/Illustrator.jsx</ScriptPath>
+                    <CEFCommandLine>
+                        <Parameter>--persist-session-cookies</Parameter>
+                    </CEFCommandLine>
+                </Resources>
+                <Lifecycle>
+                    <AutoVisible>true</AutoVisible>
+                </Lifecycle>
+                <UI>
+                    <Type>Panel</Type>
+                    <Menu>Mavigrafica Helper</Menu>
+                    <Geometry>
+                        <Size>
+                            <Height>590</Height>
+                            <Width>355</Width>
+                        </Size>
+                    </Geometry>
+                    <Icons>
+                        <Icon Type="Normal">./assets/IconLight.png</Icon>
+                        <Icon Type="RollOver">./assets/IconLight.png</Icon>
+                        <Icon Type="DarkNormal">./assets/IconDark.png</Icon>
+                        <Icon Type="DarkRollOver">./assets/IconDark.png</Icon>
+                    </Icons>
+                </UI>
+            </DispatchInfo>
+        </Extension>
+    </DispatchInfoList>
+</ExtensionManifest>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<link href="./css/style.css" rel="stylesheet">
+	<meta charset="utf-8">
+	<script>
+		function reload() {
+			setTimeout(function(){
+				setSwatchColor();
+				leggiScheda();
+			},100);
+		}
+		function refresh() {
+			window.location.reload();
+		}
+	</script>
+</head>
+
+<body>
+	<div class="tab">
+		<button class="tablinks active" onclick="openTab(event, 'Legenda')">Legenda</button>
+		<button class="tablinks" onclick="openTab(event, 'Lineatura')">Lineatura & Varianti</button>
+		<button class="tablinks" onclick="openTab(event, 'Extra')">Extra</button>
+		<button class="tablinks" onclick="openTab(event, 'Bottoniere')">Bottoniere</button>
+
+		<!-- bottone per reload -->
+		<button class="tablinks" onclick="reload()" style="background-color: rgb(235, 117, 117);">Compila</button>
+		<button class="tablinks" onclick="refresh()" style="position: absolute; bottom: 45px; width: 22%;">Refresh</button>
+		<button class="tablinks" onclick="openTab(event, 'Links')" id="mavi-btn"><b>Mavi</b></button>
+
+	</div>
+
+	<div id="Legenda" class="tabcontent" style="display: block;">
+		<div class="contenitore">
+			<div class="titoloContenitore">Informazioni Lavoro</div>
+			<div class="labels">
+				<div>Commessa:</div>
+				<div>Cliente:</div>
+				<div>Stampatore:</div>
+				<div>Cilindro:</div>
+				<div>Bar Code:</div>
+<!-- 				<div>Mag:</div> -->
+				<div>Polimero:</div>
+				<div>Lineatura:</div>
+				<div>Grafico:</div>
+				<div>Profilo:</div>
+			</div>
+			<div class="inputText ui-widget">
+				<input class="casellaTesto" id="commessa"></input>
+				<input class="casellaTesto" id="cliente"></input>
+				<input class="casellaTesto" id="stampatore"></input>
+				<input class="casellaTesto" id="cilindro"></input>
+				<div style="display:flex; align-items: center; ">
+					<input class="casellaTesto" style="width: 70%;" id="barCode"></input>
+					<input class="casellaTesto" style="width: 41px;" placeholder="Mag" id="mag"></input>
+				</div>
+				<input class="casellaTesto" id="polimero"></input>
+				<input class="casellaTesto" id="lineatura"></input>
+				<input class="casellaTesto" id="grafico"></input>
+				<input class="casellaTesto" id="profilo"></input>
+			</div>
+		</div>
+		<div style="display: flex; flex-direction: row; ">
+			<div class="contenitore" style="width: 69%; margin-top: 0; margin-bottom: 0;">
+				<div class="titoloContenitore">Ripetizioni</div>
+				<div class="labels">
+					<div>Fascia:</div>
+				</div>
+				<div class="inputText">
+					<input class="casellaTesto" id="ripFascia"></input>
+				</div>
+				<div class="labels">
+					<div>Passo:</div>
+				</div>
+				<div class="inputText">
+					<input class="casellaTesto" id="ripPasso"></input>
+				</div>
+			</div>
+			<div class="contenitore" style="margin-left: 3px; width: 29%; margin-top: 0; margin-bottom: 0;">
+				<div class="titoloContenitore">Revisione</div>
+				<div class="dropdownContainer" style="margin-top: 3px;">
+					<select name="revisione" id="revisione" class="dropdown">
+					</select>
+				</div>	
+			</div>
+		</div>
+		<div class="contenitore">
+			<div class="titoloContenitore" style="justify-items: center;">Colori Tecnici</div>
+			<div class="dropdownContainer">
+				<select name="film" id="film" class="dropdown">
+					<option value="-1">[Film]</option>
+				</select>
+				<select name="fustella" id="fustella" class="dropdown">
+					<option value="-1">[Fustella]</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="contenitore" style="display: flex; align-items: baseline;">
+			<div class="titoloContenitore">Lavorazione</div>
+			<div style="display: flex; width: 55%">
+				<div class="dropdownContainer">
+					<select name="lavorazione" id="lavorazione" class="dropdown">
+						<option value="new">Nuovo</option>
+						<option value="rist">Modifica</option>
+						<option value="abb">Abbinato</option>
+						<option value="var">Variante</option>
+						<option value="varrist">Mod. Variante</option>
+					</select>
+				</div>
+			</div>
+			<div class="inputText ui-widget">
+				<input class="casellaTesto" placeholder="Impianto Base" id="impBase"></input>
+			</div>
+		</div>
+		
+		<div class="contenitore" style="align-items: flex-start; justify-content: space-between;">
+			<div class="titoloContenitore">Emulsione</div>
+			
+			<div class="labels" style="padding: 6px;">Stampa: </div>
+			<div>
+				<input class="radio" type="radio" id="interna" name="emulsione" value="interna" checked>
+				<label class="labels" for="interna">Interna</label>
+			</div>
+			
+			<div>
+				<input class="radio" type="radio" id="esterna" name="emulsione" value="esterna">
+				<label class="labels" for="esterna">Esterna</label>
+			</div>
+		</div>
+		<div class="labels" style="margin-top: -18px;">Clicca su <b>Compila</b> prima di inserire i dati e ordina i colori nel tab <b>Campioni</b>.</div>
+
+		<button class="button" type="submit" onclick="generaLegenda()">
+			Crea/Modifica
+		</button>
+	</div>
+
+<!--  -->
+
+	<div id="Lineatura" class="tabcontent" style="display: none;">
+		<div class="labels" style="margin-top: 10px;">Se la lineatura <b>non</b> è uguale per tutti i colori riempire le caselle corrispondenti</div>
+		<hr style="width: 95%; border: .3px solid #3e3e3e;margin-top: -3px;">
+		<div style="display: flex; align-items: baseline; margin-left: 50px; margin-top: -5px;">
+			<label class="labels" for="globale" style="margin-top: 5px;"><b>Lineatura per colore</b></label>
+			<input type="checkbox" name="globale" value="globale" id="globale" style="margin-top: 5px;">
+		</div>
+		<div class="contenitore" style="display: flex; flex-direction: row;">
+			<div class="titoloContenitore">Lineatura</div>
+			<div class="labels" style="width: 40%;">
+				<div>Lineatura 01:</div>
+				<div>Lineatura 02:</div>
+				<div>Lineatura 03:</div>
+				<div>Lineatura 04:</div>
+				<div>Lineatura 05:</div>
+				<div>Lineatura 06:</div>
+				<div>Lineatura 07:</div>
+				<div>Lineatura 08:</div>
+				<div>Lineatura 09:</div>
+				<div>Lineatura 10:</div>
+			</div>
+			<div class="inputText ui-widget" style="width: 59%; ">
+				<input class="casellaTesto" id="lineatura0"></input>
+				<input class="casellaTesto" id="lineatura1"></input>
+				<input class="casellaTesto" id="lineatura2"></input>
+				<input class="casellaTesto" id="lineatura3"></input>
+				<input class="casellaTesto" id="lineatura4"></input>
+				<input class="casellaTesto" id="lineatura5"></input>
+				<input class="casellaTesto" id="lineatura6"></input>
+				<input class="casellaTesto" id="lineatura7"></input>
+				<input class="casellaTesto" id="lineatura8"></input>
+				<input class="casellaTesto" id="lineatura9"></input>
+			</div>
+		</div>
+
+		<div class="labels" style="margin-top: -15px;">Spunta il colore che varia per attivare il segnalino del colore variante</div>
+		<div class="contenitore" style="display: flex; flex-direction: row; margin-top: 12px;">
+			<div class="titoloContenitore">Colori Varianti</div>
+			<div class="labels" style="width: 50%; padding-top: 10px;">
+				<input type="checkbox" name="varColore0" value="varColore0" id="varColore0">
+				<label class="labels" for="varColore0">Colore 01</label>
+				<input type="checkbox" name="varColore2" value="varColore2" id="varColore2">
+				<label class="labels" for="varColore2">Colore 03</label>
+				<input type="checkbox" name="varColore4" value="varColore4" id="varColore4">
+				<label class="labels" for="varColore4">Colore 05</label>
+				<input type="checkbox" name="varColore6" value="varColore6" id="varColore6">
+				<label class="labels" for="varColore6">Colore 07</label>
+				<input type="checkbox" name="varColore8" value="varColore8" id="varColore8">
+				<label class="labels" for="varColore8">Colore 09</label>
+			</div>
+			<div class="labels" style="width: 50%; padding-top: 10px;">
+				<input type="checkbox" name="varColore1" value="varColore1" id="varColore1">
+				<label class="labels" for="varColore1">Colore 02</label>
+				<input type="checkbox" name="varColore3" value="varColore3" id="varColore3">
+				<label class="labels" for="varColore3">Colore 04</label>
+				<input type="checkbox" name="varColore5" value="varColore5" id="varColore5">
+				<label class="labels" for="varColore5">Colore 06</label>
+				<input type="checkbox" name="varColore7" value="varColore7" id="varColore7">
+				<label class="labels" for="varColore7">Colore 08</label>
+				<input type="checkbox" name="varColore9" value="varColore9" id="varColore9">
+				<label class="labels" for="varColore9">Colore 10</label>
+			</div>
+		</div>
+		<button class="button" type="submit" onclick="generaLegenda()">
+			Crea/Modifica
+		</button>
+	</div>
+
+<!--  -->
+
+	<div id="Extra" class="tabcontent" style="display: none;">
+
+		<div class="contenitore" style="padding: 15px 20px; flex-direction: column;">
+			<div class="titoloContenitore">Genera Quote</div>
+			<div class="labels">Selezionare un elemento prima di cliccare su <b>Genera Quote</b> per quotare uno o più oggetti</div>
+			<button class="button-generico" style="width: 100%;" onclick="quote()">Genera Quote</button>
+		</div>
+		<!--  -->
+		<div class="contenitore" style="display: flexbox; flex-direction: column; align-items: right;">
+			<img class="titoloContenitore" style="width: 30%;" src="./assets/Crucibel.svg"></img>
+			<div class="labels" style="padding: 15px 20px 2px; " >Selezionare un elemento prima di cliccare su <b>Crea</b> per aggiungere crocini/micropunti, diciture (dipendenti dal tab legenda)</div>
+			<hr style="width: 100%; border: .3px solid #3e3e3e;">
+			<div style="display: flex; flex-direction: row;">
+				<div class="checkBoxCol">
+					<input type="checkbox" name="top" value="top" id="top" style="display: none;" onclick="checkcrucibel('top','bot','imgTOP','imgBOT')" checked>
+					<label for="top">
+						<img src="./assets/Crocino.svg" class="crucibel crucibelPressed" id="imgTOP" style="transform: rotate(180deg); width: 15px;" for="top"></img>
+					</label>
+					<div class="checkBoxRow">
+						<input type="checkbox" name="left" value="left" id="left" style="display: none;" onclick="checkcrucibel('left','right','imgLEFT','imgRIGHT')" checked>
+						<label for="left">
+							<img src="./assets/Crocino.svg" class="crucibel crucibelPressed" id="imgLEFT" style="transform: rotate(90deg); width: 15px;" for="left"></img>
+						</label>
+						<button class="button-generico" style="margin: auto 10px ;" onclick="crucibel()">
+							Crea
+						</button>
+						<input type="checkbox" name="right" value="right" id="right" style="display: none;" onclick="checkcrucibel('right', 'left','imgRIGHT','imgLEFT')" checked>
+						<label for="right">
+							<img src="./assets/Crocino.svg" class="crucibel crucibelPressed" id="imgRIGHT" style="transform: rotate(270deg); width: 15px;" for="right"></img>
+						</label>
+					</div>
+					<input type="checkbox" name="bot" value="bot" id="bot" style="display: none;" onclick="checkcrucibel('bot','top','imgBOT','imgTOP')" checked>
+					<label for="bot">
+						<img src="./assets/Crocino.svg" class="crucibel crucibelPressed" id="imgBOT" style="width: 15px;" for="bot"></img>
+					</label>
+				</div>
+				<div style="margin: 2px; padding-top: 7px;">
+					<div class="labels"><b>Nome e colori</b></div>
+					<div>
+						<input class="radio" type="radio" id="nameTOP" name="diciture" value="nameTOP" checked>
+						<label class="labels" for="nameTOP">Sopra</label>
+					</div>
+					<div>
+						<input class="radio" type="radio" id="nameRIGHT" name="diciture" value="nameRIGHT">
+						<label class="labels" for="nameRIGHT">Destra</label>
+					</div>
+					<div style="margin-top: 10px; margin-left: 2.5px;">
+						<input type="checkbox" name="micropunti" value="micropunti" id="micropunti">
+						<label class="labels" for="micropunti">Micropunti</label>
+						</div>
+				</div>
+			</div>
+		</div>
+		<!--  -->
+		<div class="contenitore" style="padding: 20px; flex-direction: column;">
+			<div class="titoloContenitore">Genera Bozza</div>
+			<div class="labels">Clicca su <b>"Composita"</b> per generare un pdf rasterizzato sulla scrivania.</div>
+					<button class="button-generico" style="width: 100%;" onclick="bozzaComposita()">
+						Composita
+					</button>
+				<!--<button class="button-generico" onclick="bozzaSeparazione()">
+						Separazione
+				</button> -->
+			</div>
+		</div>
+	</div>
+
+	
+	<div id="Bottoniere" class="tabcontent" style="display: none;">
+		<div class="labels" style="margin-top: 10px;">Selezionare un elemento <b>collegato</b> prima di cliccare il tasto della bottoniera.</div>
+		<div class="contenitore" style="align-items: top; justify-items: center; justify-content: center;">
+			<div class="titoloContenitore">Bottoniere</div>
+			<div id="scriptHolder1" style="display: flex; flex-direction: column; width: 100%; align-items: center; justify-content: center; overflow-x: hidden; overflow-y: scroll;"></div>
+			<div id="scriptHolder2" style="display: flex; flex-direction: column; width: 100%; align-items: center; justify-content: center; overflow-x: hidden; overflow-y: scroll;"></div>
+		</div>
+	</div>
+
+	
+	<div id="Links" class="tabcontent" style="display: none;">
+		<div class="contenitore">
+			<div class="titoloContenitore">Collegamenti esterni</div>
+			<div class="loghi">
+				<img class="logo" id="logoMavi" src="./assets/logo_bianco.svg"></img>
+				<hr style="width: 100%; margin-top:10px; border: 0.7px solid #3e3e3e; border-radius: 3px;">
+				<img class="logoInt" style="width: 30%;" id="logocloudflow" src="./assets/logo_cloudflow.svg"></img>
+				<div class="descrizione" id="logocloudflow" >Apri il gestionale</div>
+				<img class="logoInt" id="logo3cx" src="./assets/logo_3cx.svg"></img>
+				<div class="descrizione" id="logo3cx">Apri il centralino</div>
+			</div>
+			
+		</div>
+		<div class="descrizione" style="position: absolute; bottom: 0; left: 35%; color: white;">Creato da Gianluca Vitale </div>
+	</div>
+	
+	<script src="./js/libs/CSInterface.js"></script>
+	<script src="./js/main.js"></script>
+
+</body>
+
+</html>
